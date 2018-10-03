@@ -55,16 +55,16 @@ for(i in 1:7){
 	}	
 }
 colors <- c("setosa" = "red", "versicolor" = "green3", "virginica" = "blue") 
-plot(iris[, 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species], asp = 1, main = "Задача классификации 1NN", xlab = "длина листа", ylab = "ширина листа" ) 
+#plot(iris[, 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species], asp = 1, main = "Задача классификации 1NN", xlab = "длина листа", ylab = "ширина листа" ) 
  
-OY<-c(seq(0.0, 3.0, 0.1)) # от 0 до 3 с шагом 0.1
-OX<-c(seq(0.0,7.0,0.1))
-for(i in OX){
-	for(j in OY){
-	z<-c(i,j)
-	class <- KNN(xl, z, k) 
-	points(z[1], z[2], pch = 22, col = colors[class], asp = 1) }
-}
+#OY<-c(seq(0.0, 3.0, 0.1)) # от 0 до 3 с шагом 0.1
+#OX<-c(seq(0.0,7.0,0.1))
+#for(i in OX){
+#	for(j in OY){
+#	z<-c(i,j)
+#	class <- KNN(xl, z, k) 
+#	points(z[1], z[2], pch = 22, col = colors[class], asp = 1) }
+#}
 
 
 
