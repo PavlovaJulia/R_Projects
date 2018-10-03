@@ -35,22 +35,22 @@ LOO применяется для каждого k, и то k для котор�
 ### LOO
 
 Определение оптимального значения k:
-    	LOO <- function(xl, k) {
-    z <- c(xl[1,1], xl[1,2])
-	xl1 <- xl[2:dim(xl)[1], ]
-	class <- KNN(xl1, z, k)
-	
-	if(xl[1,3]== class) 
-		error=0
-	else error=1
-	
-	sum <- 0
-	sum <- sum+error
-		
-	for(i in 2:dim(xl)[1]){
-		z <- c(xl[i,1],xl[i,2])
-		xl1 <- rbind(xl[1:(i-1),], xl[(i+1):dim(xl)[1],])
+    LOO <- function(xl, k) {
+		z <- c(xl[1,1], xl[1,2])
+		xl1 <- xl[2:dim(xl)[1], ]
 		class <- KNN(xl1, z, k)
+	
+		if(xl[1,3]== class) 
+			error=0
+		else error=1
+	
+		sum <- 0
+		sum <- sum+error
+		
+		for(i in 2:dim(xl)[1]){
+			z <- c(xl[i,1],xl[i,2])
+			xl1 <- rbind(xl[1:(i-1),], xl[(i+1):dim(xl)[1],])
+			class <- KNN(xl1, z, k)
 	
 		if(xl[i,3]== class) 
 			error=0
@@ -59,9 +59,9 @@ LOO применяется для каждого k, и то k для котор�
 		sum <- sum+error
 	}
 	
-sum <- (sum/(dim(xl)[1]))
-return(sum)
-}
+		sum <- (sum/(dim(xl)[1]))
+		return(sum)
+	}
 
 ### График зависимоти LOO от k
 ![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/LOO.png)
