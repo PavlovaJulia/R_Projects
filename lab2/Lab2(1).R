@@ -48,15 +48,15 @@ LOO <- function(xl, k) {
 	sum <- sum+error
 		
 	for(i in 2:dim(xl)[1]){
-    z <- c(xl[i,1],xl[i,2])
-	xl1 <- rbind(xl[1:(i-1),], xl[(i+1):dim(xl)[1],])
-	class <- KNN(xl1, z, k)
+		z <- c(xl[i,1],xl[i,2])
+		xl1 <- rbind(xl[1:(i-1),], xl[(i+1):dim(xl)[1],])
+		class <- KNN(xl1, z, k)
 	
 		if(xl[i,3]== class) 
 			error=0
 		else error=1
 		
-	sum <- sum+error
+		sum <- sum+error
 	}
 	
 sum <- (sum/(dim(xl)[1]))
