@@ -25,7 +25,7 @@ sort_ojects_by_dist <- function(xl, z, metric_function = euclidean_distance){
 
 
 KNN <- function(xl, z, k) {	  
-#	возвращает класс объекта который чаще всего встречается
+#	функция которая возвращает класс объекта чаще всего встречающейся
 	 orderedXl <- sort_ojects_by_dist(xl, z)     
 	 n <- dim(orderedXl)[2] - 1 
 	 classes <- orderedXl[1:k, n + 1] 
@@ -36,6 +36,7 @@ KNN <- function(xl, z, k) {
 
 
 LOO <- function(xl, k) {
+#	функция нахождения оптимального k
     z <- c(xl[1,1], xl[1,2])
 	xl1 <- xl[2:dim(xl)[1], ]
 	class <- KNN(xl1, z, k)
@@ -48,15 +49,15 @@ LOO <- function(xl, k) {
 	sum <- sum+error
 		
 	for(i in 2:dim(xl)[1]){
-		z <- c(xl[i,1],xl[i,2])
-		xl1 <- rbind(xl[1:(i-1),], xl[(i+1):dim(xl)[1],])
+		z <- c(xl[i, 1],xl[i, 2])
+		xl1 <- rbind(xl[1:(i-1), ], xl[(i+1):dim(xl)[1], ])
 		class <- KNN(xl1, z, k)
 	
-		if(xl[i,3]== class) 
-			error=0
-		else error=1
+		if(xl[i, 3]== class) 
+			error = 0
+		else error = 1
 		
-		sum <- sum+error
+		sum <- sum + error
 	}
 	
 sum <- (sum/(dim(xl)[1]))
@@ -64,12 +65,12 @@ return(sum)
 }
 
 k=1
-xl<-(iris[ ,3:5])	# наша выборка
+xl <- (iris[ ,3:5])	# наша выборка
 grafic1 <- matrix(c(k, LOO(xl, k)), 1, 2)
 grafic2 <- matrix(NA, 1, 2)
 
 prev_sumerror <- 1	# ошибка не может быть больше еденицы 
-for(i in 2:7){
+for(i in 2:30){
 	sumerror <- LOO(xl, i)
 	grafic2[1, ] <- c(i, sumerror)
 	grafic1 <- rbind(grafic1, grafic2)
@@ -79,18 +80,18 @@ for(i in 2:7){
 	}	
 }
 
-#colors <- c("setosa" = "red", "versicolor" = "green3", "virginica" = "blue") 
-#plot(iris[ , 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species], asp = 1, main = "Задача классификации KNN", xlab = "длина листа", ylab = "ширина листа" ) 
+colors <- c("setosa" = "red", "versicolor" = "green3", "virginica" = "blue") 
+plot(iris[ , 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species], asp = 1, main = "Задача классификации KNN", xlab = "длина листа", ylab = "ширина листа" ) 
  
-#OY<-c(seq(0.0, 3.0, 0.1)) # от 0 до 3 с шагом 0.1
-#OX<-c(seq(0.0, 7.0, 0.1))
-#for(i in OX){
-#	for(j in OY){
-#		z <- c(i, j)
-#		class <- KNN(xl, z, k) 
-#		points(z[1], z[2], pch = 22, col = colors[class], asp = 1) 
-#	}
-#}
+OY<-c(seq(0.0, 3.0, 0.1)) # от 0 до 3 с шагом 0.1
+OX<-c(seq(0.0, 7.0, 0.1))
+for(i in OX){
+	for(j in OY){
+		z <- c(i, j)
+		class <- KNN(xl, z, k) 
+		points(z[1], z[2], pch = 22, col = colors[class], asp = 1) 
+	}
+}
 
 plot(grafic1, pch = 22, bg = "blue", col = "blue",  main = "График зависимости LOO от k", xlab = "значение k", ylab = "значение LOO")
 lines(grafic1, col = "blue")
