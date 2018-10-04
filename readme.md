@@ -71,6 +71,17 @@
 		sum <- (sum/(dim(xl)[1]))
 		return(sum)
 	}
+	
+	prev_sumerror <- 1	# ошибка не может быть больше еденицы 
+		for(i in 2:7){
+			sumerror <- LOO(xl, i)
+			grafic2[1, ] <- c(i, sumerror)
+			grafic1 <- rbind(grafic1, grafic2)
+			if(prev_sumerror >= sumerror){
+				prev_sumerror <- sumerror
+				k <- i
+			}	
+		}
 
 ### График зависимоти LOO от k
 ![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/LOO.png)

@@ -24,7 +24,7 @@ sort_ojects_by_dist <- function(xl, z, metric_function = euclidean_distance){
 }	
 
 
-KNN <- function(xl, z, k) {	  
+knn <- function(xl, z, k) {	  
 #	функция которая возвращает класс объекта чаще всего встречающейся
 	 orderedXl <- sort_ojects_by_dist(xl, z)     
 	 n <- dim(orderedXl)[2] - 1 
@@ -35,43 +35,37 @@ KNN <- function(xl, z, k) {
 }
 
 
-LOO <- function(xl, k) {
+loo <- function(xl, k) {
 #	функция нахождения оптимального k
-    z <- c(xl[1,1], xl[1,2])
-	xl1 <- xl[2:dim(xl)[1], ]
-	class <- KNN(xl1, z, k)
+#    z <- c(xl[1,1], xl[1,2])
+#	xl1 <- xl[2:dim(xl)[1], ]
+#	class <- knn(xl1, z, k)
 	
-	if(xl[1,3]== class) 
-		error=0
-	else error=1
-	
+#	if(xl[1,3]== class) 
+#		error=0
+#	else error=1	
 	sum <- 0
-	sum <- sum+error
 		
-	for(i in 2:dim(xl)[1]){
+	for(i in 1:dim(xl)[1]){
 		z <- c(xl[i, 1],xl[i, 2])
-		xl1 <- rbind(xl[1:(i-1), ], xl[(i+1):dim(xl)[1], ])
-		class <- KNN(xl1, z, k)
+		xl1 <- xl[-i, ]
+		class <- knn(xl1, z, k)
 	
-		if(xl[i, 3]== class) 
-			error = 0
-		else error = 1
-		
-		sum <- sum + error
+		if(xl[i, 3] == class) 
+			sumerror <- sum + 1		
 	}
 	
-sum <- (sum/(dim(xl)[1]))
-return(sum)
-}
+sumerror <- (sum/(dim(xl)[1]))
+return(sumerror)
 
-k=1
+
+prev_sumerror <- 1	# ошибка не может быть больше еденицы
 xl <- (iris[ ,3:5])	# наша выборка
 grafic1 <- matrix(c(k, LOO(xl, k)), 1, 2)
 grafic2 <- matrix(NA, 1, 2)
 
-prev_sumerror <- 1	# ошибка не может быть больше еденицы 
-for(i in 2:30){
-	sumerror <- LOO(xl, i)
+for(i in 1:150){
+	sumerror <- loo(xl, i)
 	grafic2[1, ] <- c(i, sumerror)
 	grafic1 <- rbind(grafic1, grafic2)
 	if(prev_sumerror >= sumerror){
@@ -79,9 +73,15 @@ for(i in 2:30){
 		k <- i
 	}	
 }
+}
+
+#k=1
+
+
+
 
 colors <- c("setosa" = "red", "versicolor" = "green3", "virginica" = "blue") 
-plot(iris[ , 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species], asp = 1, main = "Задача классификации KNN", xlab = "длина листа", ylab = "ширина листа" ) 
+plot(iris[ , 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species], main = "Задача классификации KNN", xlab = "длина листа", ylab = "ширина листа", asp = 1) 
  
 OY<-c(seq(0.0, 3.0, 0.1)) # от 0 до 3 с шагом 0.1
 OX<-c(seq(0.0, 7.0, 0.1))
