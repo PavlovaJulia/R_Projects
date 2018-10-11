@@ -72,11 +72,10 @@
 4. Рисуется knn и Loo.
 	
 ###	График KNN и Loo
-![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/KNN.png)
 ![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/KNNandLOO.png)
 
 5. График 1NN как частный случай алгоритма KNN, при k = 1.
 ![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab1/1NN.png)
-![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/KNN.png)
+
 
 
