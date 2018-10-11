@@ -25,75 +25,71 @@ sort_ojects_by_dist <- function(xl, z, metric_function = euclidean_distance){
 
 
 knn <- function(xl, z, k) {	  
-#	функция которая возвращает класс объекта чаще всего встречающейся
-	 orderedXl <- sort_ojects_by_dist(xl, z)     
-	 n <- dim(orderedXl)[2] - 1 
-	 classes <- orderedXl[1:k, n + 1] 
+#	возвращает класс объекта чаще всего встречающейся
+	      
+	 n <- dim(xl)[2] - 1 
+	 classes <- xl[1:k, n + 1] 
 	 counts <- table(classes) 
 	 class <- names(which.max(counts)) 
 	 return (class)	  
 }
 
 
-loo <- function(xl, k) {
-#	функция нахождения оптимального k
-#    z <- c(xl[1,1], xl[1,2])
-#	xl1 <- xl[2:dim(xl)[1], ]
-#	class <- knn(xl1, z, k)
-	
-#	if(xl[1,3]== class) 
-#		error=0
-#	else error=1	
-	sum <- 0
-		
-	for(i in 1:dim(xl)[1]){
-		z <- c(xl[i, 1],xl[i, 2])
-		xl1 <- xl[-i, ]
-		class <- knn(xl1, z, k)
-	
-		if(xl[i, 3] == class) 
-			sumerror <- sum + 1		
+loo <- function(xl) {
+#	функция возвращает массив средних ошибок
+	l <- nrow(xl)
+	n <- ncol(xl)
+	Sum <- rep(0, l)
+	for (i in 1:l){
+		z <- xl[i, 1 : (n-1)]
+		xl1 <- sort_ojects_by_dist(xl[-i, ], z)		
+		for(j in 1:l){
+			class <- knn(xl1, z, j)	
+			if(xl[i, n] != class) 
+				Sum[j] <- Sum[j] + 1/l 	
+		}
 	}
-	
-sumerror <- (sum/(dim(xl)[1]))
-return(sumerror)
-
-
-prev_sumerror <- 1	# ошибка не может быть больше еденицы
-xl <- (iris[ ,3:5])	# наша выборка
-grafic1 <- matrix(c(k, LOO(xl, k)), 1, 2)
-grafic2 <- matrix(NA, 1, 2)
-
-for(i in 1:150){
-	sumerror <- loo(xl, i)
-	grafic2[1, ] <- c(i, sumerror)
-	grafic1 <- rbind(grafic1, grafic2)
-	if(prev_sumerror >= sumerror){
-		prev_sumerror <- sumerror
-		k <- i
-	}	
-}
+	return(Sum)
 }
 
-#k=1
+optimal <- function(loo){
+#	записывает в k индекс минимального значения 
+	k <- which.min(loo)
+	return(k)
+}
+
+grafic <- function(xl, k, Sumerror){
+	par(mfrow = c(1, 2)) # рисуем график knn и loo вместе 
+
+	colors <- c("setosa" = "red", "versicolor" = "green3", "virginica" = "blue") 
+	plot(iris[ , 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species], main = "Задача классификации KNN", xlab = "длина листа", ylab = "ширина листа", asp = 1) 
+	 
+	OY<-c(seq(0.0, 3.0, 0.1)) # от 0 до 3 с шагом 0.1
+	OX<-c(seq(0.0, 7.0, 0.1))
 
 
-
-
-colors <- c("setosa" = "red", "versicolor" = "green3", "virginica" = "blue") 
-plot(iris[ , 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species], main = "Задача классификации KNN", xlab = "длина листа", ylab = "ширина листа", asp = 1) 
- 
-OY<-c(seq(0.0, 3.0, 0.1)) # от 0 до 3 с шагом 0.1
-OX<-c(seq(0.0, 7.0, 0.1))
-for(i in OX){
-	for(j in OY){
-		z <- c(i, j)
-		class <- KNN(xl, z, k) 
-		points(z[1], z[2], pch = 22, col = colors[class], asp = 1) 
+	for(i in OX){
+		for(j in OY){
+			z <- c(i, j)		
+			orderedXl <- sort_ojects_by_dist(xl, z)
+			class <- knn(orderedXl, z, k) 
+			points(z[1], z[2], pch = 22, col = colors[class], asp = 1) 
+		}
 	}
+
+	plot(Sumerror, type = "l", bg = "blue", col = "blue",  main = "График зависимости LOO от k", xlab = "значение k", ylab = "значение LOO")
+	points(k, Sumerror[which.min(Sumerror)], pch = 21, col = "red", bg = "red")
+	txt <- paste("k = ", k, "\n", "Loo =", round(Sumerror[which.min(Sumerror)], 3))
+	text(k, Sumerror[which.min(Sumerror)], labels = txt, pos = 3)
+
 }
 
-plot(grafic1, pch = 22, bg = "blue", col = "blue",  main = "График зависимости LOO от k", xlab = "значение k", ylab = "значение LOO")
-lines(grafic1, col = "blue")
+main <- function(){
+	xl <- iris[ ,3:5] # выборка
+	Sumerror <- loo(xl)
+	k <- optimal(Sumerror)
+	grafic(xl, k, Sumerror)
+}
 
+main()
 

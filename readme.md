@@ -19,10 +19,11 @@
 2. Используется метод KNN который: возвращает класс чаще всего встречается среди k ближайших соседей.
 
 ### Программная реализация алгоритма выглядит следующим образом:
-    KNN <- function(xl, z, k) {	  
-		orderedXl <- sort_ojects_by_dist(xl, z)     
-		n <- dim(orderedXl)[2] - 1 
-		classes <- orderedXl[1:k, n + 1] 
+    knn <- function(xl, z, k) {	  
+	#	функция которая возвращает класс объекта чаще всего встречающейся
+	      
+		n <- dim(xl)[2] - 1 
+		classes <- xl[1:k, n + 1] 
 		counts <- table(classes) 
 		class <- names(which.max(counts)) 
 		return (class)	  
@@ -30,7 +31,7 @@
 
 3. Используется метод скользящего контроля: LOO который определят оптимальное значение k. 
 
-* Убирается первый объект выборки, и запускаем KNN для отсальных. 
+* Убирается первый объект выборки, и запускается KNN для остальных. 
 
 * Сравнивается класс первого объекта который получился и истиный класс этого же объекта, если они не совпадают, 
 то сумма ошибок увеличивается на 1. 
@@ -39,59 +40,42 @@
 
 * Накопливаемая сумма делится на количество объектов выборки. 
 
-* LOO применяется для каждого k, и то k для которого усредненная ошибка минимально и будет наше оптимальное k.
+* LOO применяется для каждого k, и то k для которого усредненная ошибка минимальная и будет наше оптимальное k.
 
 ### LOO
 
 Определение оптимального значения k:
 
-    LOO <- function(xl, k) {
-		z <- c(xl[1,1], xl[1,2])
-		xl1 <- xl[2:dim(xl)[1], ]
-		class <- KNN(xl1, z, k)
-	
-		if(xl[1,3]== class) 
-			error=0
-		else error=1
-	
-		sum <- 0
-		sum <- sum+error
-		
-		for(i in 2:dim(xl)[1]){
-			z <- c(xl[i,1],xl[i,2])
-			xl1 <- rbind(xl[1:(i-1),], xl[(i+1):dim(xl)[1],])
-			class <- KNN(xl1, z, k)
-	
-		if(xl[i,3]== class) 
-			error=0
-		else error=1
-		
-		sum <- sum+error
-	}	
-		sum <- (sum/(dim(xl)[1]))
-		return(sum)
-	}
-	
-	prev_sumerror <- 1	# ошибка не может быть больше еденицы 
-		for(i in 2:7){
-			sumerror <- LOO(xl, i)
-			grafic2[1, ] <- c(i, sumerror)
-			grafic1 <- rbind(grafic1, grafic2)
-			if(prev_sumerror >= sumerror){
-				prev_sumerror <- sumerror
-				k <- i
-			}	
+    loo <- function(xl) {
+	#	функция которая возвращает массив средних ошибок
+		l <- nrow(xl)
+		n <- ncol(xl)
+		Sum <- rep(0, l)
+		for (i in 1:l){
+			z <- xl[i, 1 : (n-1)]
+			xl1 <- sort_ojects_by_dist(xl[-i, ], z)		
+			for(j in 1:l){
+				class <- knn(xl1, z, j)	
+				if(xl[i, n] != class) 
+					Sum[j] <- Sum[j] + 1/l 	
+			}
 		}
+		return(Sum)
+	}
 
-### График зависимоти LOO от k
-![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/LOO.png)
+	optimal <- function(loo){
+	#	записываем в k индекс минимального значения 
+		k <- which.min(loo)
+		return(k)
+	}
 
-4. Рисуется выборка.
-5. Рисуются классифицируемые объекты.
-
+4. Рисуется knn и Loo.
 	
-###	График классификации алгоритмом KNN и частный случай при k=1 1NN
+###	График KNN и Loo
 ![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/KNN.png)
-![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab1/1NN.png)
+![](лоо)
+
+5. График 1NN как частный случай алгоритма KNN, при k = 1.
+![](1нн)
 
 
