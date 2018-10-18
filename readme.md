@@ -77,5 +77,21 @@
 5. График 1NN как частный случай алгоритма KNN, при k = 1.
 ![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab1/1NN.png)
 
+### Метод k взвешанных соседей (KWNN)
+
+    kwnn <- function(xl, z, k, q) {	  
+	  #	возвращает класс объекта у которого вес больше всего
+
+	  n <- ncol(xl)
+	  table <- table(xl[,n])
+	  table[1:length(table)] <- 0
+	  for(i in names(table)){
+		for(j in 1:k)
+		if(i == xl[j,n]) 
+		  table[i] =  table[i] + (k-i+1)*q*q
+	  }
+	  class <- names(which.max(table))
+	  return (class)	  
+	}
 
 
