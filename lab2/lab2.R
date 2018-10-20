@@ -1,4 +1,4 @@
-#	Решение задачи классификации методом KNN
+#	Решение задачи классификации методом KWNN
 
 euclidean_distance <- function(u, v){
   #	функция расстояния
@@ -24,7 +24,7 @@ sort_ojects_by_dist <- function(xl, z, metric_function = euclidean_distance){
 }	
 
 
-kwnn <- function(xl, z, k, q) {	  
+kwnn <- function(xl, z, k) {	  
   #	возвращает класс объекта чаще всего встречающейся
   
   #i <- 1
@@ -37,7 +37,7 @@ kwnn <- function(xl, z, k, q) {
   for(i in names(table)){
     for(j in 1:k)
     if(i == xl[j,n]) 
-      table[i] =  table[i] + (k-i+1)*q*q
+      table[i] = table[i] + (k-j+1)/k
   }
   class <- names(which.max(table))
   return (class)	  
@@ -48,12 +48,12 @@ loo <- function(xl) {
   #	функция возвращает массив средних ошибок
   l <- nrow(xl)
   n <- ncol(xl)
-  Sum <- rep(0, l)
+  Sum <- rep(0, (l-1))
   for (i in 1:l){
     z <- xl[i, 1 : (n-1)]
     xl1 <- sort_ojects_by_dist(xl[-i, ], z)		
-    for(j in 1:l){
-      class <- knn(xl1, z, j)	
+    for(j in 1:(l-1)){
+      class <- kwnn(xl1, z, j)	
       if(xl[i, n] != class) 
         Sum[j] <- Sum[j] + 1/l 	
     }
@@ -71,7 +71,7 @@ grafic <- function(xl, k, Sumerror){
   par(mfrow = c(1, 2)) # рисуем график knn и loo вместе 
   
   colors <- c("setosa" = "red", "versicolor" = "green3", "virginica" = "blue") 
-  plot(iris[ , 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species], main = "Задача классификации KNN", xlab = "длина листа", ylab = "ширина листа", asp = 1) 
+  plot(iris[ , 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species], main = "Задача классификации KWNN", xlab = "длина листа", ylab = "ширина листа", asp = 1) 
   
   OY<-c(seq(0.0, 3.0, 0.1)) # от 0 до 3 с шагом 0.1
   OX<-c(seq(0.0, 7.0, 0.1))
@@ -81,7 +81,7 @@ grafic <- function(xl, k, Sumerror){
     for(j in OY){
       z <- c(i, j)		
       orderedXl <- sort_ojects_by_dist(xl, z)
-      class <- kwnn(orderedXl, z, k, q) 
+      class <- kwnn(orderedXl, z, k) 
       points(z[1], z[2], pch = 22, col = colors[class], asp = 1) 
     }
   }

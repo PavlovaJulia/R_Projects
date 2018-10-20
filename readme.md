@@ -94,4 +94,7 @@
 	  return (class)	  
 	}
 
+### График KWNN и Loo 
+![]()
+
 
