@@ -95,6 +95,6 @@
 	}
 
 ### График KWNN и Loo 
-![]()
+![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/KWNN.png)
 
 
