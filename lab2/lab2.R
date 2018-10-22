@@ -10,9 +10,9 @@ euclidean_distance <- function(u, v){
 sort_ojects_by_dist <- function(xl, z, metric_function = euclidean_distance){
 #	сортировка
 
-     l <- dim(xl)[1]	# размерность выборки по строкам     
-	 n <- dim(xl)[2] - 1 	# размерность выборки по столбцам
-	 distances <- matrix(NA, l, 2) 
+    l <- dim(xl)[1]	# размерность выборки по строкам     
+	n <- dim(xl)[2] - 1 	# размерность выборки по столбцам
+	distances <- matrix(NA, l, 2) 
 	 
 	      for (i in 1:l)  
 		  {         
@@ -27,11 +27,11 @@ sort_ojects_by_dist <- function(xl, z, metric_function = euclidean_distance){
 knn <- function(xl, z, k) {	  
 #	возвращает класс объекта чаще всего встречающейся
 	      
-	 n <- dim(xl)[2] - 1 
-	 classes <- xl[1:k, n + 1] 
-	 counts <- table(classes) 
-	 class <- names(which.max(counts)) 
-	 return (class)	  
+	n <- dim(xl)[2] - 1 
+	classes <- xl[1:k, n + 1] 
+	counts <- table(classes) 
+	class <- names(which.max(counts)) 
+	return (class)	  
 }
 
 
@@ -53,7 +53,7 @@ loo <- function(xl) {
 }
 
 optimal <- function(loo){
-#	записывает в k индекс минимального значения 
+#	записывает в k индекс минимального значения массива
 	k <- which.min(loo)
 	return(k)
 }
