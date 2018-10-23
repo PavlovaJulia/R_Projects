@@ -101,19 +101,19 @@
 
 ### Программная реализация алгоритма выглядит следующим образом:
 
-    kwnn <- function(xl, z, k, q) {	  
+    kwnn <- function(xl, k) {	  
 	  #	возвращает класс объекта у которого вес больше всего
 
-	  n <- ncol(xl)
-	  table <- table(xl[,n])
-	  table[1:length(table)] <- 0
-	  for(i in names(table)){
-		for(j in 1:k)
-		if(i == xl[j,n]) 
-		  table[i] =  table[i] + (k-i+1)*q*q
-	  }
-	  class <- names(which.max(table))
-	  return (class)	  
+	    n <- ncol(xl)
+	    table <- table(xl[1:k,n])
+	    table[1:length(table)] <- 0
+	    for(i in names(table)){
+			for(j in 1:k)
+				if(i == xl[j,n]) 
+					table[i] =  table[i] + (k-j+1)/k
+	    }
+	    class <- names(which.max(table))
+	    return (class)	  
 	}
 
 ### График KWNN и Loo 
