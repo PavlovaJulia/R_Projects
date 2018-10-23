@@ -108,9 +108,9 @@
 	    table <- table(xl[1:k,n])
 	    table[1:length(table)] <- 0
 	    for(i in names(table)){
-			for(j in 1:k)
-				if(i == xl[j,n]) 
-					table[i] =  table[i] + (k-j+1)/k
+		    for(j in 1:k)
+			    if(i == xl[j,n]) 
+				    table[i] =  table[i] + (k-j+1)/k
 	    }
 	    class <- names(which.max(table))
 	    return (class)	  
