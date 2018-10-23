@@ -110,7 +110,7 @@
         for(i in names(table)){
           for(j in 1:k)
         	  if(i == xl[j,n]) 
-        		  table[i] =  table[i] + (k-j+1)/k
+                table[i] =  table[i] + (k-j+1)/k
 	    }
         class <- names(which.max(table))
         return (class)	  
