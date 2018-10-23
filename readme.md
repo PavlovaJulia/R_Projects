@@ -30,14 +30,14 @@
 
 ### Программная реализация алгоритма выглядит следующим образом:
     knn <- function(xl, z, k) {	  
-	#	функция которая возвращает класс объекта чаще всего встречающейся
+    #    функция которая возвращает класс объекта чаще всего встречающейся
 	      
-		n <- dim(xl)[2] - 1 
-		classes <- xl[1:k, n + 1] 
-		counts <- table(classes) 
-		class <- names(which.max(counts)) 
-		return (class)	  
-	}
+      n <- dim(xl)[2] - 1 
+      classes <- xl[1:k, n + 1] 
+      counts <- table(classes) 
+      class <- names(which.max(counts)) 
+      return (class)	  
+    }
 
  Используется метод скользящего контроля: LOO который определят оптимальное значение k. 
  
@@ -59,27 +59,27 @@
 Определение оптимального значения k:
 
     loo <- function(xl) {
-	#	функция которая возвращает массив средних ошибок
-		l <- nrow(xl)
-		n <- ncol(xl)
-		Sum <- rep(0, l)
-		for (i in 1:l){
-			z <- xl[i, 1 : (n-1)]
-			xl1 <- sort_ojects_by_dist(xl[-i, ], z)		
-			for(j in 1:l){
-				class <- knn(xl1, z, j)	
-				if(xl[i, n] != class) 
-					Sum[j] <- Sum[j] + 1/l 	
-			}
-		}
-		return(Sum)
-	}
+    #    функция которая возвращает массив средних ошибок
+      l <- nrow(xl)
+      n <- ncol(xl)
+      Sum <- rep(0, l)
+        for (i in 1:l){
+          z <- xl[i, 1 : (n-1)]
+          xl1 <- sort_ojects_by_dist(xl[-i, ], z)		
+          for(j in 1:l){
+            class <- knn(xl1, z, j)	
+            if(xl[i, n] != class) 
+              Sum[j] <- Sum[j] + 1/l 	
+          }
+        }
+      return(Sum)
+    }
 
-	optimal <- function(loo){
-	#	записываем в k индекс минимального значения 
-		k <- which.min(loo)
-		return(k)
-	}
+    optimal <- function(loo){
+    #    записываем в k индекс минимального значения 
+      k <- which.min(loo)
+    return(k)
+    }
 
  Рисуется knn и Loo.
 	
