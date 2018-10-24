@@ -10,8 +10,8 @@ euclidean_distance <- function(u, v){
 sort_ojects_by_dist <- function(xl, z, metric_function = euclidean_distance){
   #	сортировка
   
-  l <- dim(xl)[1]	# размерность выборки по строкам     
-  n <- dim(xl)[2] - 1 	# размерность выборки по столбцам
+  l <- nrow(xl)	# размерность выборки по строкам     
+  n <- ncol(xl) - 1 	# размерность выборки по столбцам
   distances <- matrix(NA, l, 2) 
   
   for (i in 1:l)  
@@ -27,13 +27,13 @@ sort_ojects_by_dist <- function(xl, z, metric_function = euclidean_distance){
 kwnn <- function(xl, k) {	  
   #	возвращает класс объекта чаще всего встречающейся
   
-  n <- dim(xl)[2] - 1 
-  classes <- xl[1:k, n + 1] 
+  n <- ncol(xl)
+  classes <- xl[1:k, n] 
   table <- table(classes)
   table[1:length(table) ] <- 0
   for(i in names(table))
     for(j in 1:k) # по j-тым соседям
-      if(i == xl[j, n + 1]) # i - классы
+      if(i == xl[j, n]) # i - классы
         table[i] =  table[i] + (k-j+1)/k
   class <- names(which.max(table)) 
   return (class)	  

@@ -27,8 +27,8 @@ sort_ojects_by_dist <- function(xl, z, metric_function = euclidean_distance){
 knn <- function(xl, z, k) {	  
 #	возвращает класс объекта чаще всего встречающейся
 	      
-	n <- dim(xl)[2] - 1 
-	classes <- xl[1:k, n + 1] 
+	n <- ncol(xl) 
+	classes <- xl[1:k, n] 
 	counts <- table(classes) 
 	class <- names(which.max(counts)) 
 	return (class)	  
@@ -37,9 +37,10 @@ knn <- function(xl, z, k) {
 
 loo <- function(xl) {
 #	функция возвращает массив средних ошибок
-	l <- nrow(xl)
+
+	l <- nrow(xl) 
 	n <- ncol(xl)
-	Sum <- rep(0, l)
+	Sum <- rep(0, l) 
 	for (i in 1:l){
 		z <- xl[i, 1 : (n-1)]
 		xl1 <- sort_ojects_by_dist(xl[-i, ], z)		
