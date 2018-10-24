@@ -78,7 +78,7 @@
     optimal <- function(loo){
     #    записываем в k индекс минимального значения 
       k <- which.min(loo)
-    return(k)
+      return(k)
     }
 
  Рисуется knn и Loo.
