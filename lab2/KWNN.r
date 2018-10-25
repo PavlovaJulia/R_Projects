@@ -1,39 +1,39 @@
-#	Решение задачи классификации методом KWNN
+#	Р РµС€РµРЅРёРµ Р·Р°РґР°С‡Рё РєР»Р°СЃСЃРёС„РёРєР°С†РёРё РјРµС‚РѕРґРѕРј KWNN
 
 euclidean_distance <- function(u, v){
-  #	функция расстояния
+  #	С„СѓРЅРєС†РёСЏ СЂР°СЃСЃС‚РѕСЏРЅРёСЏ
   
   sqrt(sum((u - v)^2)) 
 }
 
 
 sort_ojects_by_dist <- function(xl, z, metric_function = euclidean_distance){
-  #	сортировка
+  #	СЃРѕСЂС‚РёСЂРѕРІРєР°
   
-  l <- nrow(xl)	# размерность выборки по строкам     
-  n <- ncol(xl) - 1 	# размерность выборки по столбцам
+  l <- nrow(xl)	# СЂР°Р·РјРµСЂРЅРѕСЃС‚СЊ РІС‹Р±РѕСЂРєРё РїРѕ СЃС‚СЂРѕРєР°Рј     
+  n <- ncol(xl) - 1 	# СЂР°Р·РјРµСЂРЅРѕСЃС‚СЊ РІС‹Р±РѕСЂРєРё РїРѕ СЃС‚РѕР»Р±С†Р°Рј
   distances <- matrix(NA, l, 2) 
   
   for (i in 1:l)  
   {         
-    distances[i, ] <- c(i, metric_function(xl[i, 1:n], z))	# расстояние от каждой точки до классифицируемой
+    distances[i, ] <- c(i, metric_function(xl[i, 1:n], z))	# СЂР°СЃСЃС‚РѕСЏРЅРёРµ РѕС‚ РєР°Р¶РґРѕР№ С‚РѕС‡РєРё РґРѕ РєР»Р°СЃСЃРёС„РёС†РёСЂСѓРµРјРѕР№
   }  
   
-  orderedXl <- xl[order(distances[, 2]), ]	# сортируем выборку по расстоянию    
+  orderedXl <- xl[order(distances[, 2]), ]	# СЃРѕСЂС‚РёСЂСѓРµРј РІС‹Р±РѕСЂРєСѓ РїРѕ СЂР°СЃСЃС‚РѕСЏРЅРёСЋ    
   return (orderedXl);
 }	
 
 
 kwnn <- function(xl, k) {	  
-  #	возвращает класс объекта чаще всего встречающейся
+  #	РІРѕР·РІСЂР°С‰Р°РµС‚ РєР»Р°СЃСЃ РѕР±СЉРµРєС‚Р° С‡Р°С‰Рµ РІСЃРµРіРѕ РІСЃС‚СЂРµС‡Р°СЋС‰РµР№СЃСЏ
   
   n <- ncol(xl)
   classes <- xl[1:k, n] 
   table <- table(classes)
   table[1:length(table) ] <- 0
   for(i in names(table))
-    for(j in 1:k) # по j-тым соседям
-      if(i == xl[j, n]) # i - классы
+    for(j in 1:k) # РїРѕ j-С‚С‹Рј СЃРѕСЃРµРґСЏРј
+      if(i == xl[j, n]) # i - РєР»Р°СЃСЃС‹
         table[i] =  table[i] + (k-j+1)/k
   class <- names(which.max(table)) 
   return (class)	  
@@ -41,7 +41,7 @@ kwnn <- function(xl, k) {
 
 
 loo <- function(xl) {
-  #	функция возвращает массив средних ошибок
+  #	С„СѓРЅРєС†РёСЏ РІРѕР·РІСЂР°С‰Р°РµС‚ РјР°СЃСЃРёРІ СЃСЂРµРґРЅРёС… РѕС€РёР±РѕРє
   l <- nrow(xl)
   n <- ncol(xl)
   Sum <- rep(0, (l-1))
@@ -59,19 +59,19 @@ loo <- function(xl) {
 
 
 optimal <- function(loo){
-  #	записывает в k индекс минимального значения массива
+  #	Р·Р°РїРёСЃС‹РІР°РµС‚ РІ k РёРЅРґРµРєСЃ РјРёРЅРёРјР°Р»СЊРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ РјР°СЃСЃРёРІР°
   k <- which.min(loo)
   return(k)
 }
 
 
 grafic <- function(xl, k, Sumerror){
-  par(mfrow = c(1, 2)) # рисуем график knn и loo вместе 
+  par(mfrow = c(1, 2)) # СЂРёСЃСѓРµРј РіСЂР°С„РёРє knn Рё loo РІРјРµСЃС‚Рµ 
   
   colors <- c("setosa" = "red", "versicolor" = "green3", "virginica" = "blue") 
-  plot(iris[ , 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species], main = "Задача классификации KNN", xlab = "длина листа", ylab = "ширина листа", asp = 1) 
+  plot(iris[ , 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species], main = "Р—Р°РґР°С‡Р° РєР»Р°СЃСЃРёС„РёРєР°С†РёРё KNN", xlab = "РґР»РёРЅР° Р»РёСЃС‚Р°", ylab = "С€РёСЂРёРЅР° Р»РёСЃС‚Р°", asp = 1) 
   
-  OY<-c(seq(0.0, 3.0, 0.1)) # от 0 до 3 с шагом 0.1
+  OY<-c(seq(0.0, 3.0, 0.1)) # РѕС‚ 0 РґРѕ 3 СЃ С€Р°РіРѕРј 0.1
   OX<-c(seq(0.0, 7.0, 0.1))
   
   for(i in OX){
@@ -83,7 +83,7 @@ grafic <- function(xl, k, Sumerror){
     }
   }
   
-  plot(Sumerror, type = "l", bg = "blue", col = "blue",  main = "График зависимости LOO от k", xlab = "значение k", ylab = "значение LOO")
+  plot(Sumerror, type = "l", bg = "blue", col = "blue",  main = "Р“СЂР°С„РёРє Р·Р°РІРёСЃРёРјРѕСЃС‚Рё LOO РѕС‚ k", xlab = "Р·РЅР°С‡РµРЅРёРµ k", ylab = "Р·РЅР°С‡РµРЅРёРµ LOO")
   points(k, Sumerror[which.min(Sumerror)], pch = 21, col = "red", bg = "red")
   txt <- paste("k = ", k, "\n", "Loo =", round(Sumerror[which.min(Sumerror)], 3))
   text(k, Sumerror[which.min(Sumerror)], labels = txt, pos = 3)
@@ -91,7 +91,7 @@ grafic <- function(xl, k, Sumerror){
 }
 
 main <- function(){
-  xl <- iris[ ,3:5] # выборка
+  xl <- iris[ ,3:5] # РІС‹Р±РѕСЂРєР°
   Sumerror <- loo(xl)
   k <- optimal(Sumerror)
   grafic(xl, k, Sumerror)
