@@ -24,7 +24,7 @@ sort_ojects_by_dist <- function(xl, z, metric_function = euclidean_distance){
 }	
 
 
-kwnn <- function(xl, k) {	  
+kwnn <- function(xl, k, q) {	  
   #	возвращает класс объекта чаще всего встречающейся
   
   n <- ncol(xl)
@@ -34,7 +34,7 @@ kwnn <- function(xl, k) {
   for(i in names(table))
     for(j in 1:k) # по j-тым соседям
       if(i == xl[j, n]) # i - классы
-        table[i] =  table[i] + (k-j+1)/k
+        table[i] =  table[i] + q^j # добавляем вес
   class <- names(which.max(table)) 
   return (class)	  
 }
@@ -44,14 +44,19 @@ loo <- function(xl) {
   #	функция возвращает массив средних ошибок
   l <- nrow(xl)
   n <- ncol(xl)
-  Sum <- rep(0, (l-1))
+  value_q <- seq(0.1, 1, 0.1) # перебираем q 
+  Sum <- matrix(0, l-1, length(value_q)) # матрица, где k это строки а q - столбцы
   for (i in 1:l){
     z <- xl[i, 1 : (n-1)]
     xl1 <- sort_ojects_by_dist(xl[-i, ], z)		
-    for(j in 1:(l-1)){
-      class <- kwnn(xl1, j)	
-      if(xl[i, n] != class) 
-        Sum[j] <- Sum[j] + 1/l 	
+    for(k in 1:(l-1)){
+      int_q <- 1
+      for(q in value_q){
+       class <- kwnn(xl1, k, q)
+       if(xl[i, n] != class) 
+        Sum[k, int_q] <- Sum[k, int_q] + 1/l 	
+       int_q <- int_q + 1 
+      }
     }
   }
   return(Sum)
@@ -59,17 +64,28 @@ loo <- function(xl) {
 
 
 optimal <- function(loo){
-  #	записывает в k индекс минимального значения массива
-  k <- which.min(loo)
-  return(k)
+  #	находит в матрице минимальное значение и в k записывает индеск стоки а в q индекс столбца
+  ind_min_k <- 1
+  l <- nrow(loo)
+  min <- min(loo[1,])
+  for(i in 1:l){
+    if(min(loo[i,]) < min) {
+      min = min(loo[i,])
+      ind_min_k <- i
+      
+    }
+  }
+  ind_min_q <- (which.min(loo[ind_min_k,]))/10
+  opt <- c(ind_min_k,ind_min_q)
+  return(opt)
 }
 
 
-grafic <- function(xl, k, Sumerror){
+grafic <- function(xl, k, Sumerror, q){
   par(mfrow = c(1, 2)) # рисуем график knn и loo вместе 
   
   colors <- c("setosa" = "red", "versicolor" = "green3", "virginica" = "blue") 
-  plot(iris[ , 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species], main = "Задача классификации KNN", xlab = "длина листа", ylab = "ширина листа", asp = 1) 
+  plot(iris[ , 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species], main = "Задача классификации KWNN", xlab = "длина листа", ylab = "ширина листа", asp = 1) 
   
   OY<-c(seq(0.0, 3.0, 0.1)) # от 0 до 3 с шагом 0.1
   OX<-c(seq(0.0, 7.0, 0.1))
@@ -78,23 +94,28 @@ grafic <- function(xl, k, Sumerror){
     for(j in OY){
       z <- c(i, j)		
       orderedXl <- sort_ojects_by_dist(xl, z)
-      class <- kwnn(orderedXl, k)
+      class <- kwnn(orderedXl, k, q)
       points(z[1], z[2], pch = 22, col = colors[class], asp = 1) 
     }
   }
   
-  plot(Sumerror, type = "l", bg = "blue", col = "blue",  main = "График зависимости LOO от k", xlab = "значение k", ylab = "значение LOO")
-  points(k, Sumerror[which.min(Sumerror)], pch = 21, col = "red", bg = "red")
-  txt <- paste("k = ", k, "\n", "Loo =", round(Sumerror[which.min(Sumerror)], 3))
-  text(k, Sumerror[which.min(Sumerror)], labels = txt, pos = 3)
+  int_q <- q*10
+  
+  
+  plot(Sumerror[,int_q], type = "l", bg = "blue", col = "blue",  main = "График зависимости LOO от k", xlab = "значение k", ylab = "значение LOO")
+  points(k, Sumerror[k, int_q], pch = 21, col = "red", bg = "red")
+  txt <- paste("k = ", k, "\n", "Loo =", round(Sumerror[k, int_q], 3))
+  text(k, Sumerror[k, int_q], labels = txt, pos = 3)
   
 }
 
 main <- function(){
   xl <- iris[ ,3:5] # выборка
   Sumerror <- loo(xl)
-  k <- optimal(Sumerror)
-  grafic(xl, k, Sumerror)
+  opt <- optimal(Sumerror)
+  opt_k <- opt[1]
+  opt_q <- opt[2]
+  grafic(xl, opt_k, Sumerror, opt_q)
 }
 
 main()
