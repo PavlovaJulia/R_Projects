@@ -20,25 +20,33 @@ get_dist <- function(xl, z, metric_function = euclidean_distance){
   }  
   
   return (distances);
-}	
+}
+
+
+# Функции ядер
 
 ker_gaus <- function(r){
+  # гауссовское
   (2*pi)^(-0.5)*exp(-0.5*(r^2))
 }
 
 ker_rec <- function(r){
+  # прямоугольное
   (0.5)*(abs(r)<= 1)
 }
 
 ker_triangle <- function(r){
+  # треугольное
   (1-abs(r))*(abs(r) <= 1)
 }
 
 ker_kvar <- function(r){
+  # квартическое
   (15/16)*(1-r^2)^2*(abs(r) <= 1)
 }
 
 ker_epanech <- function(r){
+  # епанечниково
   (3/4)*(1-r^2)*(abs(r) <= 1)
 }
 
@@ -99,7 +107,7 @@ grafic <- function(xl, h, Sumerror, ker_function){
   plot(iris[ , 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species], main = "Задача классификации PW", xlab = "длина листа", ylab = "ширина листа", asp = 1) 
   
   OY<-c(seq(0.0, 3.0, 0.1)) # от 0 до 3 с шагом 0.1
-  OX<-c(seq(-0.5, 7.0, 0.1))
+  OX<-c(seq(0.0, 7.0, 0.1))
   
   for(i in OX){
     for(j in OY){
@@ -126,5 +134,5 @@ main <- function(ker_function){
   grafic(xl, h, Sumerror, ker_function)
 }
 
-main(ker_gaus)
+main(ker_rec)
 

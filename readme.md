@@ -104,20 +104,20 @@ knn <- function(xl, z, k) {
 ### Программная реализация алгоритма выглядит следующим образом:
 
 ```R
-    kwnn <- function(xl, k) {	  
-	  #	возвращает класс объекта у которого вес больше всего
-
-        n <- ncol(xl)
-        table <- table(xl[1:k,n])
-        table[1:length(table)] <- 0
-        for(i in names(table)){
-          for(j in 1:k)
-        	  if(i == xl[j,n]) 
-                table[i] =  table[i] + (k-j+1)/k
-	    }
-        class <- names(which.max(table))
-        return (class)	  
-	}
+kwnn <- function(xl, k, q) {	  
+  #	возвращает класс объекта чаще всего встречающейся
+  
+  n <- ncol(xl)
+  classes <- xl[1:k, n] 
+  table <- table(classes)
+  table[1:length(table) ] <- 0
+  for(i in names(table))
+    for(j in 1:k) # по j-тым соседям
+      if(i == xl[j, n]) # i - классы
+        table[i] =  table[i] + q^j # добавляем вес
+  class <- names(which.max(table)) 
+  return (class)	  
+}
 ```
 	
 ### График KWNN и Loo 
