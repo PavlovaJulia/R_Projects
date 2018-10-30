@@ -59,6 +59,7 @@ knn <- function(xl, z, k) {
 
 Определение оптимального значения k:
 
+```R
     loo <- function(xl) {
     #    функция которая возвращает массив средних ошибок
       l <- nrow(xl)
@@ -81,7 +82,7 @@ knn <- function(xl, z, k) {
       k <- which.min(loo)
       return(k)
     }
-
+```
  Рисуется knn и Loo.
 	
 ###	График KNN и Loo
@@ -102,6 +103,7 @@ knn <- function(xl, z, k) {
 
 ### Программная реализация алгоритма выглядит следующим образом:
 
+```R
     kwnn <- function(xl, k) {	  
 	  #	возвращает класс объекта у которого вес больше всего
 
@@ -116,7 +118,8 @@ knn <- function(xl, z, k) {
         class <- names(which.max(table))
         return (class)	  
 	}
-
+```
+	
 ### График KWNN и Loo 
 ![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/KWNNandLOO.png)
 
