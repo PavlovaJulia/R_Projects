@@ -182,3 +182,24 @@ optimal <- function(loo){
 * Епанечниково ![](https://camo.githubusercontent.com/0cad7a4e41913e389111d61935a76fba1cbff264/687474703a2f2f6c617465782e636f6465636f67732e636f6d2f7376672e6c617465783f2535436c61726765253230452532387a253239253230253344253230253543667261632537423325374425374234253744253230253238312532302d2532307a2535453225323925323025354363646f742532302535422537437a2537432532302535436c657125323031253544)
 * Гауссовское ![](http://latex.codecogs.com/gif.latex?%5CLARGE%20%282%5Cpi%29%5E%7B-%5Cfrac%7B1%7D%7B%7D2%7De%5E%7B%28-%5Cfrac%7B1%7D%7B2%7D*r%5E%7B2%7D%29%7D)
 
+### Графики PW
+
+#### Гауссовское ядро
+
+![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/PW_Gays.png)
+
+#### Прямоугольное
+
+![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/PW_rec.png)
+
+#### Треугольное
+
+![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/PW_triangle.png)
+
+#### Квартическое
+
+![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/PW_kvar.png)
+
+#### Епанечниково
+
+![]()
