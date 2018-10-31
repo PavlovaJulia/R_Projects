@@ -134,5 +134,5 @@ main <- function(ker_function){
   grafic(xl, h, Sumerror, ker_function)
 }
 
-main(ker_triangle)
+main(ker_kvar)
 
