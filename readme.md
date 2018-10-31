@@ -182,7 +182,63 @@ optimal <- function(loo){
 * Епанечниково ![](https://camo.githubusercontent.com/0cad7a4e41913e389111d61935a76fba1cbff264/687474703a2f2f6c617465782e636f6465636f67732e636f6d2f7376672e6c617465783f2535436c61726765253230452532387a253239253230253344253230253543667261632537423325374425374234253744253230253238312532302d2532307a2535453225323925323025354363646f742532302535422537437a2537432532302535436c657125323031253544)
 * Гауссовское ![](http://latex.codecogs.com/gif.latex?%5CLARGE%20%282%5Cpi%29%5E%7B-%5Cfrac%7B1%7D%7B%7D2%7De%5E%7B%28-%5Cfrac%7B1%7D%7B2%7D*r%5E%7B2%7D%29%7D)
 
+## Программная реальзация алгоритма
+
+```R
+pw <- function(distances, h, xl, ker_function) {	  
+  #	возвращает класс объекта чаще всего встречающейся
+  
+  n <- ncol(xl)
+  classes <- xl[,n] 
+  table <- table(classes)
+  table[1:length(table) ] <- 0
+  for(i in 1:nrow(xl)){
+    r <- distances[i]/h
+    class_i <- xl[i,n]
+    table[class_i] = table[class_i] + ker_function(r) 
+  }
+  if(max(table) != 0){
+    class <- names(which.max(table)) 
+    return (class)	  
+  }
+  return (0)
+}
+```
+## LOO PW
+
+```R
+loo <- function(xl, ker_function) {
+  #	функция возвращает массив средних ошибок
+  
+  l <- nrow(xl)
+  n <- ncol(xl)
+  value_h <- seq(0.1, 2, 0.1)
+  Sum <- rep(0, length(value_h))
+  for (i in 1:l){
+    z <- xl[i, 1 : (n-1)]
+    xl1 <- xl[-i,]
+    distances <- get_dist(xl1, z)
+    cnt <- 1
+    for(h in value_h){
+      class <- pw(distances, h, xl1, ker_function)	
+      if(xl[i, n] != class || class == 0) 
+        Sum[cnt] <- Sum[cnt] + 1/l 	
+      cnt <- cnt +1  
+    }
+  }
+  return(Sum)
+}
+
+
+optimal <- function(loo){
+  #	записывает в k индекс минимального значения массива
+  h <- which.min(loo)
+  return(h/10)
+}
+```
+
 ### Графики PW
+
 
 #### Гауссовское ядро
 
@@ -202,4 +258,4 @@ optimal <- function(loo){
 
 #### Епанечниково
 
-![]()
+![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/PW_epanech.png)
