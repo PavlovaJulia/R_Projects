@@ -94,7 +94,7 @@ loo <- function(xl, ker_function) {
 
 
 optimal <- function(loo){
-  #	записывает в k индекс минимального значения массива
+  #	записывает в h индекс минимального значения массива
   h <- which.min(loo)
   return(h/10)
 }

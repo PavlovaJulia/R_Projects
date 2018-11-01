@@ -104,7 +104,7 @@ grafic <- function(xl, k, Sumerror, q){
   
   plot(Sumerror[,int_q], type = "l", bg = "blue", col = "blue",  main = "График зависимости LOO от k", xlab = "значение k", ylab = "значение LOO")
   points(k, Sumerror[k, int_q], pch = 21, col = "red", bg = "red")
-  txt <- paste("k = ", k, "\n", "Loo =", round(Sumerror[k, int_q], 3))
+  txt <- paste("k = ", k, "\n", "q = ", q,"\n", "Loo =", round(Sumerror[k, int_q], 3))
   text(k, Sumerror[k, int_q], labels = txt, pos = 3)
   
 }

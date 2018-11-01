@@ -186,7 +186,7 @@ optimal <- function(loo){
 
 ```R
 pw <- function(distances, h, xl, ker_function) {	  
-  #	возвращает класс объекта чаще всего встречающейся
+  #	возвращает класс объекта c наибольшим сумарным весом
   
   n <- ncol(xl)
   classes <- xl[,n] 
@@ -201,7 +201,7 @@ pw <- function(distances, h, xl, ker_function) {
     class <- names(which.max(table)) 
     return (class)	  
   }
-  return (0)
+  return ("")
 }
 ```
 ## LOO PW
@@ -231,7 +231,7 @@ loo <- function(xl, ker_function) {
 
 
 optimal <- function(loo){
-  #	записывает в k индекс минимального значения массива
+  #	записывает в h индекс минимального значения массива
   h <- which.min(loo)
   return(h/10)
 }
