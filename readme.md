@@ -276,23 +276,82 @@ optimal <- function(loo){
 
 ## Метод потенциальных функций(PF)
 
-Рассматривается весовая функция ![](), 
+Рассматривается весовая функция ![](http://latex.codecogs.com/gif.latex?w%28x_%7Bi%7D%2C%20z%29%20%3D%20%5Cgamma_%7Bi%7D*K%28r%29), 
 
-где *К* - функция ядра, а *h* -  ширина окна, g - потенциал . 
+где *К* - функция ядра, а *h* -  ширина окна, ![](http://latex.codecogs.com/gif.latex?%5Cgamma) - потенциал . 
 
-Суть метода: алгоритм для классифицируемой точки *z* строит окружность, радиусом h и вычисляется потенциал и класс с наибольшим весом присваивается классифицируемой точке.
+Суть метода: алгоритм для классифицируемой точки *z* строит окружность, радиусом h который мы сами выбираем, вычисляется потенциал и класс с наибольшим весом присваивается классифицируемой точке.
 
 Вычисление потенциала: Вначале всем объектам присваевается нулевой потенциал. Считаются количество ошибок, если их больше, тогда первому объекту присваевается потенциал еденица. Далее также вычисляется потенциал и считается количество ошибок пока ошибок не станет меньше указанного числа. 
 
 ## Программная реальзация алгоритма
 
 ```R
+pf <- function(distances, h, xl, ker_function, g) {	  
+  #	возвращает класс объекта чаще всего встречающейся
+  
+  n <- ncol(xl)
+  classes <- xl[,n] 
+  table <- table(classes)
+  table[1:length(table) ] <- 0
+  for(i in 1:nrow(xl)){ # i объект из i строки 
+    r <- distances[i]/h[i]
+    class_i <- xl[i,n]
+    table[class_i] = table[class_i] + g[i]*ker_function(r) 
+  }
+  if(max(table) != 0){
+    class <- names(which.max(table)) 
+    return (class)	  
+  }
+  return ("")
+}
 
+get_h <- function(xl){
+  # ширина окна  
+  h <- rep(0, nrow(xl))
+  for(i in 1:nrow(xl)){
+    if(xl[i, ncol(xl)] == "setosa")
+      h[i] <- 1
+    else
+      h[i] <- 0.3
+  }
+  return(h)
+}
 ```
 ### Вычисление потенциала 
 
 ```R
-
+potencial <- function(xl, h, error, ker_function){
+  l <- nrow(xl)
+  n <- ncol(xl)
+  g <- rep(0, l)
+  get_error <- error + 1
+  cnt <- 1
+  distances <- matrix(NA, l, l)
+  for(i in 1:l)
+  distances[i, ] <- get_dist(xl, xl[i, 1:(n-1)])
+  while(get_error > error){
+    for(i in 1:l){
+      xl1 <- xl[i, 1:(n-1)]
+      xl1_class <- pf(distances[i,], h, xl, ker_function, g)
+      if(xl1_class != xl[i,n] && g[i] < 3){
+        g[i] <- g[i]+1
+        break
+      }
+    }
+    get_error <- 0
+    for(i in 1:l){
+      xl1 <- xl[i, 1:(n-1)]
+      xl1_class <- pf(distances[i,], h, xl, ker_function, g)
+      if(xl1_class != xl[i,n]){
+        get_error <- get_error + 1
+      }
+    }
+    print(get_error)
+    print(g)
+  }
+  return(g)  
+} 
 ```
 ### Графики PF
 
