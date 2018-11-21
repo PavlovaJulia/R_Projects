@@ -157,8 +157,8 @@ main <- function(ker_function){
   xl <- iris[, 3:5]
   h <- get_h(xl)
   g <- potencial(xl, h, 7, ker_function)
-  new_xl <- xl[which(g > 0),]
-  grafic(xl, new_xl, h, ker_function, g)
+  # new_xl <- xl[which(g > 0),]
+  grafic(xl, xl, h, ker_function, g)
 }
 
 main(ker_epanech)
