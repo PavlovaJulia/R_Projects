@@ -161,4 +161,4 @@ main <- function(ker_function){
   grafic(xl, xl, h, ker_function, g)
 }
 
-main(ker_epanech)
+main(ker_rec)
