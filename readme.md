@@ -351,3 +351,6 @@ potencial <- function(xl, h, error, ker_function){
 
 ![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/Rplot.png)
 
+#### Епанечниково
+
+![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/PF_epanech.png)
