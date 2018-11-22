@@ -349,16 +349,5 @@ potencial <- function(xl, h, error, ker_function){
 
 #### Прямоугольное
 
-![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/PW_rec.png)
+![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/Rplot.png)
 
-#### Треугольное
-
-![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/PW_triangle.png)
-
-#### Квартическое
-
-![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/PW_kvar.png)
-
-#### Епанечниково
-
-![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/PW_epanech.png)
