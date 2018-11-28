@@ -311,16 +311,15 @@ pf <- function(distances, h, xl, ker_function, g) {
 potencial <- function(xl, h, error, ker_function){
   l <- nrow(xl)
   n <- ncol(xl)
-  g <- rep(0, l)
-  get_error <- error + 1
-  cnt <- 1
-  distances <- matrix(NA, l, l)
+  g <- rep(0, l) # массив потенциалов
+  get_error <- error + 1 # количество ошибок на выборке
+  distances <- matrix(NA, l, l) # матрица расстояний
   for(i in 1:l)
-  distances[i, ] <- get_dist(xl, xl[i, 1:(n-1)])
+  distances[i, ] <- get_dist(xl, xl[i, 1:(n-1)]) # получаем расстояние от каждого объекта до каждого 
   while(get_error > error){
     for(i in 1:l){
-      xl1 <- xl[i, 1:(n-1)]
-      xl1_class <- pf(distances[i,], h, xl, ker_function, g)
+      xl1 <- xl[i, 1:(n-1)] # берем i объект без класса
+      xl1_class <- pf(distances[i,], h, xl, ker_function, g) # классифицируем
       if(xl1_class != xl[i,n] && g[i] < 3){
         g[i] <- g[i]+1
         break
