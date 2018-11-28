@@ -344,7 +344,7 @@ potencial <- function(xl, h, error, ker_function){
 
 #### Гауссовское ядро
 
-![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/PF-gause.png)
+![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/PF_gaus1.png)
 
 #### Прямоугольное
 
