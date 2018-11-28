@@ -74,9 +74,9 @@ get_h <- function(xl){
   # ширина окна  
   h <- rep(0, nrow(xl))
   for(i in 1:nrow(xl)){
-    if(xl[i, ncol(xl)] == "setosa")
-      h[i] <- 1
-    else
+#    if(xl[i, ncol(xl)] == "setosa")
+ #     h[i] <- 1
+  #  else
       h[i] <- 0.3
   }
   return(h)
