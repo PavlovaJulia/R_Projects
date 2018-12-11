@@ -378,5 +378,5 @@ potencial <- function(xl, h, error, ker_function){
  
  называется n- мерным нормальным (гауссовским) распределением с мат. ожиданием ![](http://latex.codecogs.com/gif.latex?%5Clarge%20%5Cmu%20%5Cin%20R%5En) и ковариационной матрицой ![](http://latex.codecogs.com/gif.latex?%5Clarge%20%5CSigma%20%5Cin%20R%5E%7Bn%20%5Ctimes%20n%7D), матрица симетричная невырожденая положительно определенной.
  
- Здесь https://pavlovajulia.shinyapps.io/line_level/ можно посмотреть как работает программа.
+ [Здесь](https://pavlovajulia.shinyapps.io/line_level/) можно посмотреть как работает программа.
   
