@@ -418,6 +418,8 @@ potencial <- function(xl, h, error, ker_function){
 
 ![](http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Clarge%20p%28x%2C%20%5Cmu%20%2C%5Csigma%20%29%20%3D%20%5Cfrac%7B1%7D%7B%5Csigma%20%5Csqrt%7B2%5Cpi%7D%7D%20%5Cexp%5E-%7B%5Cfrac%7B%28x-%5Cmu%292%20%7D%7B2%5Csigma%5E2%20%7D%7D)
 
+4) Рисуем график
+
 [Здесь](https://pavlovajulia.shinyapps.io/lab4/) можно посмотреть как работает программа
 
 Например:
