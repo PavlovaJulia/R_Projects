@@ -28,13 +28,13 @@ plotnosti <- function(point, mu, sigma){
   return (p)
 }
 
-baesclas <- function(lyamda, P, point, norm, mu, sigma){
-  baes <- rep(0,ncol(norm)-1)
-  names(baes) <- unique(norm[,3])
-  for(i in 1:length(unique(norm[,3]))){
+baesclas <- function(lyamda, P, point, xm, mu, sigma){
+  baes <- rep(0,ncol(xm)-1)
+  names(baes) <- unique(xm[,3])
+  for(i in 1:length(unique(xm[,3]))){
     baes[i] <- log(lyamda[i]*P)
     sum <- 0
-      for(j in 1: (ncol(norm)-1)) {
+      for(j in 1: (ncol(xm)-1)) {
 
         
         p <- plotnosti(point[j], mu[i,j], sigma[i,j])
@@ -47,31 +47,55 @@ baesclas <- function(lyamda, P, point, norm, mu, sigma){
   names(which.max(baes))
 } 
 
+munew <- function(xm){
+  summu <- 0
+  for(i in 1:length(xm)){
+    summu <- summu + xm[i] 
+  }
+  mu <- summu/length(xm)
+  return (mu)
+}
+
+sigmanew <- function(xm, mu){
+  sumsigma <- 0
+  for(i in 1:length(xm)){
+    sumsigma <- sumsigma + (xm[i]-mu)^2
+  }
+  sigma <- sumsigma/(length(xm)-1)
+  return(sigma)
+}
+
 server <- function(input, output) {
    
    output$distPlot <- renderPlot({
+     
      P <- 0.5
+     
      lyamda <- as.numeric(c(input$lyamda1, input$lyamda2))
-     m <- input$point
+     m <- input$point # количество точек
      mu <- matrix(as.numeric(c(input$mu11, input$mu21,input$mu12,input$mu22)), 2, 2)
-    
      sigma <- matrix(as.numeric(c(input$sigma11, input$sigma21,input$sigma12,input$sigma22)), 2, 2)
      
-     norm <- matrix(0, m, 3)
-     norm[1:(m/2),1] <- rnorm(m/2, mu[1,1], sigma[1,1])
-     norm[(m/2+1):m,1] <- rnorm(m/2, mu[2,1], sigma[2,1])
-     norm[1:(m/2),2] <- rnorm(m/2, mu[1,2], sigma[1,2])
-     norm[(m/2+1):m,2] <- rnorm(m/2, mu[2,2], sigma[2,2])
-     norm[1:(m/2),3] <- c("Анечка")
-     norm[(m/2+1):m,3] <- c("Юлечка")
+     xm <- data.frame(matrix(0, m, 3))
+     # заполняем нормальным распределением 
+     xm[1:(m/2),1] <- rnorm(m/2, mu[1,1], sigma[1,1])
+     xm[(m/2+1):m,1] <- rnorm(m/2, mu[2,1], sigma[2,1])
+     xm[1:(m/2),2] <- rnorm(m/2, mu[1,2], sigma[1,2])
+     xm[(m/2+1):m,2] <- rnorm(m/2, mu[2,2], sigma[2,2])
+     xm[1:(m/2),3] <- c("Анечка")
+     xm[(m/2+1):m,3] <- c("Юлечка")
+     
+     mu <- matrix(c(munew(xm[1:m/2,1]), munew(xm[(m/2+1):m,1]), munew(xm[1:(m/2),2]), munew(xm[(m/2+1):m,2])),2,2)
+     sigma <- matrix(c(sigmanew(xm[1:m/2,1],mu[1,1]), sigmanew(xm[(m/2+1):m,1],mu[2,1]), sigmanew(xm[1:(m/2),2], mu[1,2]), sigmanew(xm[(m/2+1):m,2],mu[2,2])),2,2)
      
      grafic <- c()
      for(i in seq(1, 15, 0.1))
        for(j in seq(1, 15, 0.1))
-         grafic <- rbind(grafic, c(i, j, baesclas(lyamda, P, c(i,j), norm, mu, sigma)))
+         grafic <- rbind(grafic, c(i, j, baesclas(lyamda, P, c(i,j), xm, mu, sigma)))
+     colnames(xm) <- c("русалка","бегемот", "класс")
      colors <- c("Анечка" = "violet", "Юлечка" = "green")
-     plot(norm[,1:2], pch = 21, col = colors[norm[,3]], bg = colors[norm[,3]], asp = 1)
-     points(grafic[,1:2], pch = 21, col = colors[norm[,3]])
+     plot(xm[,1:2], pch = 21, col = colors[xm[,3]], bg = colors[xm[,3]], asp = 1) # рисуем выборку
+     points(grafic[,1:2], pch = 21, col = colors[grafic[,3]]) # рисуем точки
    })
 }
 
