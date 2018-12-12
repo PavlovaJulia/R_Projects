@@ -417,3 +417,6 @@ potencial <- function(xl, h, error, ker_function){
 
 [Здесь](https://pavlovajulia.shinyapps.io/lab4/) можно посмотреть как работает программа
 
+Например:
+
+![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/Baes_naiv.PNG)
