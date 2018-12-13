@@ -29,17 +29,16 @@ plotnosti <- function(point, mu, sigma){
 }
 
 baesclas <- function(lyamda, P, point, xm, mu, sigma){
-  baes <- rep(0,ncol(xm)-1)
+  baes <- rep(0,length(unique(xm[,3])))
   names(baes) <- unique(xm[,3])
   for(i in 1:length(unique(xm[,3]))){
     baes[i] <- log(lyamda[i]*P)
     sum <- 0
-      for(j in 1: (ncol(xm)-1)) {
+      for(j in 1: (ncol(xm)-1)) { # идем по каждому признаку
 
+        p <- plotnosti(point[j], mu[i,j], sigma[i,j]) # плотность для каждого класса и признака
         
-        p <- plotnosti(point[j], mu[i,j], sigma[i,j])
-        
-        sum <- sum + log(p)
+        sum <- sum + log(p) 
       }
     baes[i] <- baes[i] + sum
   }  
@@ -82,8 +81,8 @@ server <- function(input, output) {
      xm[(m/2+1):m,1] <- rnorm(m/2, mu[2,1], sigma[2,1])
      xm[1:(m/2),2] <- rnorm(m/2, mu[1,2], sigma[1,2])
      xm[(m/2+1):m,2] <- rnorm(m/2, mu[2,2], sigma[2,2])
-     xm[1:(m/2),3] <- c("Анечка")
-     xm[(m/2+1):m,3] <- c("Юлечка")
+     xm[1:(m/2),3] <- c("первый")
+     xm[(m/2+1):m,3] <- c("второй")
      
      mu <- matrix(c(munew(xm[1:m/2,1]), munew(xm[(m/2+1):m,1]), munew(xm[1:(m/2),2]), munew(xm[(m/2+1):m,2])),2,2)
      sigma <- matrix(c(sigmanew(xm[1:m/2,1],mu[1,1]), sigmanew(xm[(m/2+1):m,1],mu[2,1]), sigmanew(xm[1:(m/2),2], mu[1,2]), sigmanew(xm[(m/2+1):m,2],mu[2,2])),2,2)
@@ -93,7 +92,7 @@ server <- function(input, output) {
        for(j in seq(1, 15, 0.1))
          grafic <- rbind(grafic, c(i, j, baesclas(lyamda, P, c(i,j), xm, mu, sigma)))
      colnames(xm) <- c("русалка","бегемот", "класс")
-     colors <- c("Анечка" = "violet", "Юлечка" = "green")
+     colors <- c("первый" = "violet", "второй" = "green")
      plot(xm[,1:2], pch = 21, col = colors[xm[,3]], bg = colors[xm[,3]], asp = 1) # рисуем выборку
      points(grafic[,1:2], pch = 21, col = colors[grafic[,3]]) # рисуем точки
    })
