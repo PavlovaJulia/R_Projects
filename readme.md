@@ -389,15 +389,15 @@ potencial <- function(xl, h, error, ker_function){
 
 2) Если в ковариационной матрице коэфициенты a и с равны, тогда линии уровня будут выглядеть как круги.
 
-![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/level.png)
+![]()
 
 3) Если в ковариационная матрице коэфициенты а и с не равны, тогда круги будут вытягиваться в виде элипсов зависимости от того какой признак больше.
 
-![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/level1.PNG)
+![]()
 
 4) Также элементы ковариационной матрицы b1 и b2 отвечают за поворот элипсов
 
-![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/level2.PNG)
+![]()
 
 ## Байесовский наивный классификатор
 

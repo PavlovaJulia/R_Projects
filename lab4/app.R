@@ -13,7 +13,7 @@ ui <- fluidPage(
            column(6, textInput("mu11", "мат. ожидание1(1)", 9)), column(6, textInput("mu12", "мат. ожидание1(2)", 7)),
            column(6, textInput("mu21", "мат. ожидание2(1)", 10)), column(6, textInput("mu22", "мат. ожидание2(2)", 8)),
            column(6, textInput("sigma11", "дисперсия1(1)", 0.5)), column(6, textInput("sigma12", "дисперсия1(2)", 0.5)),
-           column(6, textInput("sigma21", "дисперсия2(1)", 0.5)), column(6, textInput("sigma22", "дисперсия2(1)", 0.5))
+           column(6, textInput("sigma21", "дисперсия2(1)", 0.5)), column(6, textInput("sigma22", "дисперсия2(2)", 0.5))
          )
       ),
       

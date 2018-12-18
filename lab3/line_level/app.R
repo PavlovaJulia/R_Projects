@@ -8,10 +8,11 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       fluidRow(
-        column(12, sliderInput("a", "а", -100, 100, 1, 1)),
-        column(12,sliderInput("b12", "b1,b2", -100, 100, 0, 1)),
-        column(12,sliderInput("c", "c", -100, 100, 1, 1)),
-        column(12,sliderInput("p", "шаг плотности распределения", 0, 1, 0.01, 0.01))
+        column(12, "Определитель должен быть больше нуля"),
+        column(12, sliderInput("a", "а", 1, 30, 1, 1)),
+        column(12,sliderInput("b12", "b1,b2", 0, 10, 0, 1)),
+        column(12,sliderInput("c", "c", 1, 30, 1, 1)),
+        column(12,sliderInput("p", "шаг плотности распределения", 0.01, 0.1, 0.01, 0.01))
       )
     ),
     
@@ -34,10 +35,10 @@ server <- function(input, output) {
     if(det(matrix)>0){
       print(matrix)
       # границы графика
-      x1 <- matrix[1,1]+1
-      x2 <- -matrix[1,1]-1
-      y1 <- matrix[2,2]+1
-      y2 <- -matrix[2,2]-1
+      x1 <- matrix[1,1]+3
+      x2 <- -matrix[1,1]-3
+      y1 <- matrix[2,2]+3
+      y2 <- -matrix[2,2]-3
       
       # координаты точек с подбираемым шагом
       x <- seq(x2, x1, length.out = 100)
