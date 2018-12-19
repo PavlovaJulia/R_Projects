@@ -452,4 +452,4 @@ LDF(линейный дискриминант Фишера) - это частн�
 
 пример работы можно посмотреть [здесь](https://pavlovajulia.shinyapps.io/ldfisher/)
 
-пример ![]()
+пример ![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/LDF.PNG)
