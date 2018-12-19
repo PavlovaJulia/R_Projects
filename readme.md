@@ -439,6 +439,8 @@ potencial <- function(xl, h, error, ker_function){
 Восстанавливая параметры нормального распределения ![](http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Csmall%20%5Cmu) , 
 ![](http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Csmall%20%5Csum) для каждого класса и подставляя 
 в формулу оптимального байесовского классификатора восстановленные плотности, получим подстановочный (plug-in) алгоритм классификации
+Параметры нормального распределения оценивают согласно принципа максимума правдоподобия: ![](http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Csmall%20%5Cmu_y%20%3D%20%5Cfrac%7B1%7D%7Bl_y%7D%5Csum_%7Bx_i%3Ay_i%7D%20x_i) , ![](http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Csmall%20%5Csum_y%20%3D%20%5Cfrac%7B1%7D%7Bl_y-1%7D%5Csum%20%28x_i%20-%20%5Cmu%20_y%29%28x_i%20-%20%5Cmu%20_y%29%5ET)
 
-Параметры нормального распределения оценивают согласно принципа максимума правдоподобия: 
-![](http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Csmall%20%5Cmu_y%20%3D%20%5Cfrac%7B1%7D%7Bl_y%7D%5Csum_%7Bx_i%3Ay_i%7D%20x_i) , ![](http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Csmall%20%5Csum_y%20%3D%20%5Cfrac%7B1%7D%7Bl_y-1%7D%5Csum%20%28x_i%20-%20%5Cmu%20_y%29%28x_i%20-%20%5Cmu%20_y%29%5ET)
+Пример работы подстановочного алгоритма можно посмотреть здесь
+
+пример работы:  [](https://pavlovajulia.shinyapps.io/plug-in/)
