@@ -2,7 +2,7 @@ library(shiny)
 library(MASS)
 
 ui <- fluidPage(
-  titlePanel("plug-in алгоритм"),
+  titlePanel("LDF"),
   
   sidebarLayout(
     sidebarPanel(
