@@ -434,9 +434,11 @@ potencial <- function(xl, h, error, ker_function){
 
 ![](http://latex.codecogs.com/gif.latex?%5Clarge%20N%28x%2C%5Cmu%20%2C%20%5CSigma%29%20%3D%20%5Cfrac%7B1%7D%7B%5Csqrt%7B%282%5Cpi%29%5E2%7C%5CSigma%7C%7D%7Dexp%5E%7B%28-%5Cfrac%7B1%7D%7B2%7D%28x-%5Cmu%20%29%20%5CSigma%5E%7B-1%7D%28x-%5Cmu%29%5ET%29%7D)
 
-где, ![](http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Clarge%20%5Cmu%20%5Cin%20R%5En) - математическое ожидание(центр) ![](http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Clarge%20%5Csum%20%5Cin%20R%5E%7Bn%5Ctimes%20n%7D) - ковариационная матрица. Предполагается, что матрица []!(http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Csmall%20%5Csum) симметричная, невырожденная, положительно определённая.
+где, ![](http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Clarge%20%5Cmu%20%5Cin%20R%5En) - математическое ожидание(центр) ![](http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Clarge%20%5Csum%20%5Cin%20R%5E%7Bn%5Ctimes%20n%7D) - ковариационная матрица. Предполагается, что матрица ![](http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Csmall%20%5Csum) симметричная, невырожденная, положительно определённая.
 
 Восстанавливая параметры нормального распределения ![](http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Csmall%20%5Cmu) , 
 ![](http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Csmall%20%5Csum) для каждого класса и подставляя 
 в формулу оптимального байесовского классификатора восстановленные плотности, получим подстановочный (plug-in) алгоритм классификации
 
+Параметры нормального распределения оценивают согласно принципа максимума правдоподобия: 
+![](http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Csmall%20%5Cmu_y%20%3D%20%5Cfrac%7B1%7D%7Bl_y%7D%5Csum_%7Bx_i%3Ay_i%7D%20x_i) , ![](http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Csmall%20%5Csum_y%20%3D%20%5Cfrac%7B1%7D%7Bl_y-1%7D%5Csum%20%28x_i%20-%20%5Cmu%20_y%29%28x_i%20-%20%5Cmu%20_y%29%5ET)
