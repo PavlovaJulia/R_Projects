@@ -9,6 +9,7 @@
 # Байесовские алгоритмы классификации:
 * [Линии уровня](#линии-уровня)
 * [Баесовский наивный классификатор](#байесовский-наивный-классификатор)
+* [Plug-in](#plug-in)
 
 ## Метрические алгоритмы классификации
 
@@ -425,3 +426,12 @@ potencial <- function(xl, h, error, ker_function){
 Например:
 
 ![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/Baes_naiv.PNG)
+
+## Plug-in
+
+Нормальный дискриминантный анализ — это один из вариантов байесовской классификации, в котором в качестве моделей 
+восстанавливаемых плотностей рассматривают многомерные нормальные плотности:
+
+![](http://latex.codecogs.com/gif.latex?%5Clarge%20N%28x%2C%5Cmu%20%2C%20%5CSigma%29%20%3D%20%5Cfrac%7B1%7D%7B%5Csqrt%7B%282%5Cpi%29%5E2%7C%5CSigma%7C%7D%7Dexp%5E%7B%28-%5Cfrac%7B1%7D%7B2%7D%28x-%5Cmu%20%29%20%5CSigma%5E%7B-1%7D%28x-%5Cmu%29%5ET%29%7D)
+
+где, ![](http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Clarge%20%5Cmu%20%5Cin%20R%5En)
