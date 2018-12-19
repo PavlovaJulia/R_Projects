@@ -53,7 +53,6 @@ server <- function(input, output) {
     lyamda <- as.numeric(c(input$lyamda1, input$lyamda2))
     m <- input$point # количество точек
     mu <- matrix(as.numeric(c(input$mu11, input$mu21,input$mu12,input$mu22)), 2, 2)
-    sigma <- matrix(as.numeric(c(input$sigma11, input$sigma21,input$sigma12,input$sigma22)), 2, 2)
     
     covmat1 <- matrix(as.numeric(c(input$sigma11, 0, 0, input$sigma12)), 2, 2)
     covmat2 <- matrix(as.numeric(c(input$sigma21, 0, 0, input$sigma22)), 2, 2)                 

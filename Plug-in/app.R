@@ -49,13 +49,12 @@ server <- function(input, output) {
   lyamda <- as.numeric(c(input$lyamda1, input$lyamda2))
   m <- input$point # количество точек
   mu <- matrix(as.numeric(c(input$mu11, input$mu21,input$mu12,input$mu22)), 2, 2)
-  sigma <- matrix(as.numeric(c(input$sigma11, input$sigma21,input$sigma12,input$sigma22)), 2, 2)
   
-  covmat1 <- matrix(as.numeric(c(input$sigma11, 0, 0, input$sigma12)), 2, 2)
-  covmat2 <- matrix(as.numeric(c(input$sigma21, 0, 0, input$sigma22)), 2, 2)                 
+  covmat1 <- matrix(as.numeric(c(input$sigma11, 0, 0, input$sigma12)), 2, 2) # для первого класса
+  covmat2 <- matrix(as.numeric(c(input$sigma21, 0, 0, input$sigma22)), 2, 2) # второго                 
   
   xm <- data.frame(matrix(0, m, 3))
-  # заполняем нормальным распределением 
+  # заполняем многомерным нормальным распределением 
   xm[1:(m/2),1:2] <- mvrnorm(m/2, mu[1,], covmat1)
   xm[(m/2+1):m,1:2] <- mvrnorm(m/2, mu[2,], covmat2)
   xm[1:(m/2),3] <- c("первый")
