@@ -436,7 +436,7 @@ potencial <- function(xl, h, error, ker_function){
 
 где, ![](http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Clarge%20%5Cmu%20%5Cin%20R%5En) - математическое ожидание(центр) ![](http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Clarge%20%5Csum%20%5Cin%20R%5E%7Bn%5Ctimes%20n%7D) - ковариационная матрица. Предполагается, что матрица []!(http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Csmall%20%5Csum) симметричная, невырожденная, положительно определённая.
 
-Восстанавливая параметры нормального распределения []!(http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Csmall%20%5Cmu) , 
-[]!(http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Csmall%20%5Csum) для каждого класса и подставляя 
+Восстанавливая параметры нормального распределения ![](http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Csmall%20%5Cmu) , 
+![](http://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Csmall%20%5Csum) для каждого класса и подставляя 
 в формулу оптимального байесовского классификатора восстановленные плотности, получим подстановочный (plug-in) алгоритм классификации
 
