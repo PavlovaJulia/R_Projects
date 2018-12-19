@@ -68,6 +68,7 @@ server <- function(input, output) {
    print(sigma1)
    print(sigma2)
    
+  # коэфициенты 
   Ainv1 <- solve(sigma1)
   Ainv2 <- solve(sigma2)
   
