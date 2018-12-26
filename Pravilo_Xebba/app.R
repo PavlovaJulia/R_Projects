@@ -2,7 +2,7 @@ library(shiny)
 library(MASS)
 
 ui <- fluidPage(
-  titlePanel("Правило Хэбба"),
+  titlePanel("Pravilo Xebba"),
   
   sidebarLayout(
     sidebarPanel(
