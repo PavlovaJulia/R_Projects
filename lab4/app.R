@@ -79,6 +79,13 @@ server <- function(input, output) {
      # заполняем нормальным распределением(одномерное) 
      xm[1:(m/2),1] <- rnorm(m/2, mu[1,1], sigma[1,1])
      xm[(m/2+1):m,1] <- rnorm(m/2, mu[2,1], sigma[2,1])
+     
+     for(i in 1:(m/2)){
+       xm[i,2] <- xm[i,1] #*3/50
+     }
+       for(j in (m/2+1):m){
+        xm[j,2] <- xm[j,1]#^2/70  
+     }
      xm[1:(m/2),2] <- rnorm(m/2, mu[1,2], sigma[1,2])
      xm[(m/2+1):m,2] <- rnorm(m/2, mu[2,2], sigma[2,2])
      xm[1:(m/2),3] <- c("первый")
@@ -88,8 +95,8 @@ server <- function(input, output) {
      sigma <- matrix(c(sigmanew(xm[1:m/2,1],mu[1,1]), sigmanew(xm[(m/2+1):m,1],mu[2,1]), sigmanew(xm[1:(m/2),2], mu[1,2]), sigmanew(xm[(m/2+1):m,2],mu[2,2])),2,2)
      
      grafic <- c()
-     for(i in seq(1, 15, 0.1))
-       for(j in seq(1, 15, 0.1))
+     for(i in seq(-1, 13, 0.1))
+       for(j in seq(-1, 10 , 0.1))
          grafic <- rbind(grafic, c(i, j, baesclas(lyamda, P, c(i,j), xm, mu, sigma)))
      colnames(xm) <- c("крестик","нолик", "класс")
      colors <- c("первый" = "violet", "второй" = "green")
