@@ -542,4 +542,4 @@ LDF(линейный дискриминант Фишера) - это частн�
 
 Пример работы программы:
 
-![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/ADALine.PNG)
+![](https://github.com/PavlovaJulia/R_Projects/blob/master/lab2/Log_regr.PNG)
