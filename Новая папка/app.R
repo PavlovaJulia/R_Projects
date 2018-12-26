@@ -2,7 +2,7 @@ library(shiny)
 library(MASS)
 
 ui <- fluidPage(
-  titlePanel("ADAline"),
+  titlePanel("Правило Хэбба"),
   
   sidebarLayout(
     sidebarPanel(
@@ -22,7 +22,7 @@ ui <- fluidPage(
 )
 
 L <- function(M){
-  (1-M)^2
+  max(-M,0)
 }
 
 trainingSampleNormalization <- function(xm) {   
@@ -44,13 +44,18 @@ gradient <- function(xm, ntta, lyamda){
   }
   while(TRUE){
     
-    cnt <- cnt+1 
-    xmi <- sample(c(1:nrow(xm)), 1)
+    cnt <- cnt+1
+    M1 <- c()
+    for(i in 1:nrow(xm)){
+      M1 <- c(M1, c(w[cnt,] %*% xm[i,-4]) * xm[i,4])
+    }
+    Mminys <- which(M1<0)
+    if(length(Mminys)==0) break
+    xmi <- sample(Mminys, 1)
     M <- c(w[cnt,] %*% xm[xmi,-4]) * xm[xmi,4]
     Qi <- L(M)
     ntta <- 1/cnt # пересчет шага
-    
-    w <- rbind(w,w[cnt,] - ntta*c((w[cnt,] %*% xm[xmi,-4]  - xm[xmi,4])) * xm[xmi,-4])
+    w <- rbind(w,w[cnt,] + ntta*xm[xmi,4] * xm[xmi,-4])
     Q <- sumQ
     sumQ <- (1-lyamda)*sumQ + lyamda*Qi 
     if(cnt > 20000) {
@@ -68,7 +73,7 @@ gradient <- function(xm, ntta, lyamda){
 
 server <- function(input, output) {
   output$distPlot <- renderPlot({
-
+    
     m <- input$point # количество точек
     mu <- matrix(as.numeric(c(input$mu11, input$mu21,input$mu12,input$mu22)), 2, 2)
     
@@ -95,7 +100,7 @@ server <- function(input, output) {
     
     w <- gradient(xm, ntta, lyamda)
     
-    #colnames(xm) <- c("первый признак","второй признак", "класс")
+    colnames(xm) <- c("первый признак","второй признак", " -1 ","класс")
     colors <- c("violet", "", "green")
     plot(xm[,1:2], type = "n", asp = 1)
     for(i in 1:(nrow(w)-1)){

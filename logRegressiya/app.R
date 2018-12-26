@@ -2,7 +2,7 @@ library(shiny)
 library(MASS)
 
 ui <- fluidPage(
-  titlePanel("ADAline"),
+  titlePanel("Логистическая регрессия"),
   
   sidebarLayout(
     sidebarPanel(
@@ -22,7 +22,7 @@ ui <- fluidPage(
 )
 
 L <- function(M){
-  (1-M)^2
+  log2(1 + exp(-M))
 }
 
 trainingSampleNormalization <- function(xm) {   
@@ -35,7 +35,7 @@ trainingSampleNormalization <- function(xm) {
 
 gradient <- function(xm, ntta, lyamda){
   
-  w <- matrix(0.5,1,3)
+  w <- matrix(runif(3,-1/(2*(ncol(xm)-1)),1/(2*(ncol(xm)-1))),1,3)
   sumQ <- 0 # Q
   cnt <- 0 # номер итерации
   for(i in 1:nrow(xm)){
@@ -50,7 +50,7 @@ gradient <- function(xm, ntta, lyamda){
     Qi <- L(M)
     ntta <- 1/cnt # пересчет шага
     
-    w <- rbind(w,w[cnt,] - ntta*c((w[cnt,] %*% xm[xmi,-4]  - xm[xmi,4])) * xm[xmi,-4])
+    w <- rbind(w,w[cnt,] + ntta*(1 / (1+exp(-M)))* xm[xmi,4]* xm[xmi,-4])
     Q <- sumQ
     sumQ <- (1-lyamda)*sumQ + lyamda*Qi 
     if(cnt > 20000) {
@@ -68,7 +68,7 @@ gradient <- function(xm, ntta, lyamda){
 
 server <- function(input, output) {
   output$distPlot <- renderPlot({
-
+    
     m <- input$point # количество точек
     mu <- matrix(as.numeric(c(input$mu11, input$mu21,input$mu12,input$mu22)), 2, 2)
     
