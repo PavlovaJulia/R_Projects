@@ -11,7 +11,8 @@ ui <- fluidPage(
         column(6, textInput("mu11", "мат. ожидание1(1)", 9)), column(6, textInput("mu12", "мат. ожидание1(2)", 7)),
         column(6, textInput("mu21", "мат. ожидание2(1)", 12)), column(6, textInput("mu22", "мат. ожидание2(2)", 8)),
         column(6, textInput("sigma11", "дисперсия1(1)", 0.5)), column(6, textInput("sigma12", "дисперсия1(2)", 0.5)),
-        column(6, textInput("sigma21", "дисперсия2(1)", 0.5)), column(6, textInput("sigma22", "дисперсия2(2)", 0.5))
+        column(6, textInput("sigma21", "дисперсия2(1)", 0.5)), column(6, textInput("sigma22", "дисперсия2(2)", 0.5)),
+        column(6, textInput("diag1", "диагональ для первого", 0.2)), column(6, textInput("diag2", "диагональ для второго", 0.1))
       )
     ),
     
@@ -50,8 +51,8 @@ server <- function(input, output) {
   m <- input$point # количество точек
   mu <- matrix(as.numeric(c(input$mu11, input$mu21,input$mu12,input$mu22)), 2, 2)
   
-  covmat1 <- matrix(as.numeric(c(input$sigma11, 0, 0, input$sigma12)), 2, 2) # для первого класса
-  covmat2 <- matrix(as.numeric(c(input$sigma21, 0, 0, input$sigma22)), 2, 2) # второго                 
+  covmat1 <- matrix(as.numeric(c(input$sigma11, input$diag1, input$diag1, input$sigma12)), 2, 2) # для первого класса
+  covmat2 <- matrix(as.numeric(c(input$sigma21, input$diag2, input$diag2, input$sigma22)), 2, 2) # второго                 
   
   xm <- data.frame(matrix(0, m, 3))
   # заполняем многомерным нормальным распределением 

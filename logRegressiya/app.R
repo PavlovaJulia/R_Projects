@@ -62,7 +62,6 @@ gradient <- function(xm, ntta, lyamda){
       break
     }
   }
-  print(w)
   return(w)
 }
 
@@ -90,7 +89,6 @@ server <- function(input, output) {
     
     line <- matrix(0, length(x), length(y))
     xm <- trainingSampleNormalization(xm)
-    print(xm)
     xm <- cbind(xm[,1:2], -1, xm[,3]) 
     
     w <- gradient(xm, ntta, lyamda)
@@ -98,12 +96,29 @@ server <- function(input, output) {
     #colnames(xm) <- c("первый признак","второй признак", "класс")
     colors <- c("violet", "", "green")
     plot(xm[,1:2], type = "n", asp = 1)
-    for(i in 1:(nrow(w)-1)){
-      abline(a = w[i,3] / w[i,2], b = -w[i,1] / w[i,2], lwd = 1, col = "black")
-    }
+    # for(i in 1:(nrow(w)-1)){
+    #   abline(a = w[i,3] / w[i,2], b = -w[i,1] / w[i,2], lwd = 1, col = "black")
+    # }
     abline(a = w[nrow(w),3] / w[nrow(w),2], b = -w[nrow(w),1] / w[nrow(w),2], lwd = 3, col = "blue")
     points(xm[,1:2], pch = 21, col = colors[xm[,4]+2], bg = colors[xm[,4]+2])
     
+    for(i in seq(-10,10,0.1))
+      for(j in seq(-10,10,0.1)){
+        if(c(i,j,-1) %*% w[nrow(w),]>0){
+          M <- c(w[nrow(w),] %*% c(i,j,-1))
+          fsigma <- 1 / (1+exp(-M))
+          color <- adjustcolor("green", fsigma/1.5)
+          points(i,j, col = color, bg = color, pch = 18)
+        }
+        else{
+          M <- c(w[nrow(w),] %*% c(i,j,-1))* (-1)
+          fsigma <- 1 / (1+exp(-M))
+          color <- adjustcolor("violet", fsigma/1.5)
+          points(i,j, col = color, bg = color, pch = 18)
+        }
+        
+      }
+  
   })
 }
 

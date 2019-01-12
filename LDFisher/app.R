@@ -71,7 +71,6 @@ server <- function(input, output) {
     
     Ainv1 <- solve(sigma1)
 
-    
     c <- Ainv1[1,1]*mu1[1,1]^2 - Ainv1[1,1]*mu2[1,1]^2 + Ainv1[2,2]*mu1[1,2]^2 - Ainv1[2,2]*mu2[1,2]^2 + 2*Ainv1[1,2]*mu1[1,2]*mu1[1,1]- 2*Ainv1[1,2]*mu2[1,1]*mu2[1,2] 
     x1 <- -2*Ainv1[1,1]*mu1[1,1] + 2*Ainv1[1,1]*mu2[1,1] - 2*Ainv1[1,2]*mu1[1,2] + 2*Ainv1[1,2]*mu2[1,2]
     x2 <- -2*Ainv1[2,2]*mu1[1,2] + 2*Ainv1[2,2]*mu2[1,2] - 2*Ainv1[1,2]*mu1[1,1] + 2*Ainv1[1,2]*mu2[1,1]
