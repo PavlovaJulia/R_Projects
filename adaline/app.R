@@ -56,7 +56,9 @@ gradientLog <- function(xm, ntta, lyamda){
     xmi <- sample(c(1:nrow(xm)), 1)
     M <- c(w[cnt,] %*% xm[xmi,-4]) * xm[xmi,4]
     Qi <- Llog(M)
-    ntta <- 1/cnt # пересчет шага
+    # print(xm[xmi,-4])
+    # break
+    ntta <- 1/sqrt(sum(xm[xmi,-4]*xm[xmi,-4])) # пересчет шага
     
     w <- rbind(w,w[cnt,] + ntta*(1 / (1+exp(-(-M))))* xm[xmi,4]* xm[xmi,-4])
     Q <- sumQ
@@ -192,7 +194,7 @@ server <- function(input, output) {
     abline(a = wXebba[nrow(wXebba),3] / wXebba[nrow(wXebba),2], b = -wXebba[nrow(wXebba),1] / wXebba[nrow(wXebba),2], lwd = 3, col = "red")
     points(xm[,1:2], pch = 21, col = colors[xm[,4]+2], bg = colors[xm[,4]+2])
     
-    legend("bottomleft", c("адалаин","правило Хэбба","логистическая регрессия"), pch = c("l","l","l"), col = c("blue", "orange", "red"))
+    legend("bottomleft", c("адалаин","логистическая регрессия","правило Хэбба"), pch = c("l","l","l"), col = c("blue", "orange", "red"))
   })
 }
 
